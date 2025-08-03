@@ -1,6 +1,16 @@
 import { Lunar } from 'lunar-javascript';
 
 export default function handler(req, res) {
+  // ✅ Add CORS headers
+  res.setHeader('Access-Control-Allow-Origin', '*'); // Or replace * with 'https://elemarth.framer.website' for stricter security
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // ✅ Handle preflight CORS request
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
@@ -16,20 +26,20 @@ export default function handler(req, res) {
     const result = {
       year: {
         stem: eightChar.getYearGan(),
-        branch: eightChar.getYearZhi()
+        branch: eightChar.getYearZhi(),
       },
       month: {
         stem: eightChar.getMonthGan(),
-        branch: eightChar.getMonthZhi()
+        branch: eightChar.getMonthZhi(),
       },
       day: {
         stem: eightChar.getDayGan(),
-        branch: eightChar.getDayZhi()
+        branch: eightChar.getDayZhi(),
       },
       hour: {
         stem: eightChar.getTimeGan(),
-        branch: eightChar.getTimeZhi()
-      }
+        branch: eightChar.getTimeZhi(),
+      },
     };
 
     res.status(200).json(result);
