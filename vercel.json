@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/bazi.js": {
+      "runtime": "nodejs18"
+    }
+  }
+}
