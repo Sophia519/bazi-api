@@ -2,7 +2,7 @@
   "name": "bazi-api",
   "version": "1.0.0",
   "engines": {
-    "node": "18.x"
+    "node": ">=22"
   },
   "dependencies": {
     "lunar-javascript": "^1.7.3"
