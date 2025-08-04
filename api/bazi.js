@@ -18,11 +18,17 @@ export default function handler(req, res) {
 
   try {
     const { year, month, day, hour, minute } = req.body;
+    console.log("Incoming data:", req.body);
 
     const date = new Date(Date.UTC(year, month - 1, day, hour, minute));
+    console.log("Constructed Date:", date);
+
     const lunar = Lunar.fromDate(date);
+    console.log("Lunar Object:", lunar);
 
     const eightChar = lunar.getEightChar();
+    console.log("EightChar:", eightChar);
+
     const result = {
       year: {
         stem: eightChar.getYearGan(),
@@ -44,7 +50,7 @@ export default function handler(req, res) {
 
     res.status(200).json(result);
   } catch (err) {
-    console.error('Error:', err);
+    console.error('❌ Error in API:', err);
     res.status(500).json({ error: 'Failed to calculate Bazi' });
   }
 }
