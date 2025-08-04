@@ -1,12 +1,10 @@
 import { Lunar } from 'lunar-javascript';
 
 export default function handler(req, res) {
-  // ✅ Add CORS headers
-  res.setHeader('Access-Control-Allow-Origin', '*'); // Or replace * with 'https://elemarth.framer.website' for stricter security
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  // ✅ Handle preflight CORS request
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
@@ -21,13 +19,28 @@ export default function handler(req, res) {
     console.log("Incoming data:", req.body);
 
     const date = new Date(Date.UTC(year, month - 1, day, hour, minute));
+    if (isNaN(date.getTime())) {
+      throw new Error("Invalid date constructed");
+    }
     console.log("Constructed Date:", date);
 
-    const lunar = Lunar.fromDate(date);
-    console.log("Lunar Object:", lunar);
+    let lunar;
+    try {
+      lunar = Lunar.fromDate(date);
+      console.log("Lunar Object:", lunar);
+    } catch (e) {
+      console.error("Error creating Lunar from date:", e);
+      throw e;
+    }
 
-    const eightChar = lunar.getEightChar();
-    console.log("EightChar:", eightChar);
+    let eightChar;
+    try {
+      eightChar = lunar.getEightChar();
+      console.log("EightChar:", eightChar);
+    } catch (e) {
+      console.error("Error getting EightChar:", e);
+      throw e;
+    }
 
     const result = {
       year: {
@@ -54,4 +67,3 @@ export default function handler(req, res) {
     res.status(500).json({ error: 'Failed to calculate Bazi' });
   }
 }
-ECHO is on.
