@@ -1,7 +1,12 @@
 {
   "functions": {
-    "api/bazi.js": {
-      "runtime": "nodejs18"
+    "api/*.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "build": {
+    "env": {
+      "NODE_ENV": "production"
     }
   }
 }
